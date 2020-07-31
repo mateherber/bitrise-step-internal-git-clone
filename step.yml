@@ -1,0 +1,113 @@
+title: |-
+  Internal Git Clone Repository
+summary: |-
+  The step checks out the defined repository state, optionally updates the repository submodules without interfering with environmental variables.
+description: |
+  The checkout process depends on the checkout properties: the Step checks out a repository state defined by a branch, git commit or a git tag.
+
+  ### Configuring the Step
+
+  1. The **Git repository URL** and the ** Clone destination (local)directory path** fields are required fields and the later is automatically filled out based on your project settings.
+  Optionally, you can modify the following fields in the **Clone Config** section:
+  1. You can set the **Update the registered submodules?** option to `yes` to pull the most up-to-date version of the submodule from the submodule's repository.
+  2. You can set the number of commits you want the Step to fetch in the **Limit fetching to the specified number of commits** option. Make sure you set a decimal number.
+
+  ### Related Steps
+
+  - [Activate SSH key (RSA private key)](https://www.bitrise.io/integrations/steps/activate-ssh-key)
+  - [Bitrise.io Cache:Pull](https://www.bitrise.io/integrations/steps/cache-pull)
+  - [Bitrise.io Cache:Push](https://www.bitrise.io/integrations/steps/cache-push)
+  - [Git Clone Repository](https://www.bitrise.io/integrations/steps/git-clone)
+website: https://github.com/bitrise-io/bitrise-step-internal-git-clone
+source_code_url: https://github.com/bitrise-io/bitrise-step-internal-git-clone
+support_url: https://github.com/bitrise-io/bitrise-step-internal-git-clone/issues
+host_os_tags:
+  - osx-10.10
+  - ubuntu-16.04
+type_tags:
+  - utility
+is_requires_admin_user: false
+is_always_run: false
+is_skippable: false
+run_if: ""
+deps:
+  brew:
+    - name: git
+    - name: wget
+  apt_get:
+    - name: git
+    - name: wget
+toolkit:
+  go:
+    package_name: github.com/bitrise-io/bitrise-step-internal-git-clone
+inputs:
+  - repository_url:
+    opts:
+      title: "Git repository URL"
+      summary: |-
+        URL of the git repository you wish to clone.
+      description: |-
+        The step will try to fetch the repository from the given URL and clone it to the defined clone directory.
+      is_required: true
+  - clone_into_dir: "$BITRISE_SOURCE_DIR/_tmp"
+    opts:
+      title: "Clone destination (local) directory path"
+      summary: |-
+        Path of the directory where the cloned repository will be placed.
+      description: |-
+        Path of the directory where the cloned repository will be placed.
+      is_required: true
+  - commit:
+    opts:
+      category: Clone Config
+      title: "Git Commit to clone"
+      summary: |-
+        Hash of a commit that needs to be checked out.
+      description: |-
+        Hash of a commit that needs to be checked out.
+  - tag:
+    opts:
+      category: Clone Config
+      title: "Git Tag to clone"
+      summary: |-
+        Git tag that needs to be checked out.
+      description: |-
+        Git tag that needs to be checked out.
+  - branch:
+    opts:
+      category: Clone Config
+      title: "Git Branch to clone"
+      summary: |-
+        Git branch that needs to be checked out.
+      description: |-
+        Git branch that needs to be checked out.
+  - update_submodules: "Yes"
+    opts:
+      category: Clone Config
+      title: Update the registered submodules?
+      summary: |-
+        Update the registered submodules?
+      description: |-
+        Update the registered submodules?
+      value_options:
+        - "Yes"
+        - "No"
+  - clone_depth:
+    opts:
+      category: Clone Config
+      title: "Limit fetching to the specified number of commits"
+      summary: |-
+        Limit fetching to the specified number of commits.
+      description: |-
+        Limit fetching to the specified number of commits.
+        The value should be a decimal number, for example `10`.
+  - reset_repository: "No"
+    opts:
+      category: Debug
+      summary: Reset repository contents with git reset --hard HEAD and git clean -f after repository updated
+      description: |-
+        Reset repository contents with git reset --hard HEAD and git clean -f after repository updated.
+      title: Reset repository
+      value_options:
+        - "Yes"
+        - "No"
